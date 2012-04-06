@@ -1,0 +1,26 @@
+# Maintainer: Sven Schneider <archlinux.sandmann@googlemail.com>
+
+pkgname=libnxt
+pkgver=0.3
+pkgrel=1
+pkgdesc="Utility library for talking to the LEGO Mindstorms NXT intelligent brick at a relatively low level"
+arch=('i686' 'x86_64')
+url="http://code.google.com/p/libnxt/"
+license=('APACHE')
+depends=('libusb')
+makedepends=('scons')
+source=(http://libnxt.googlecode.com/files/${pkgname}-${pkgver}.tar.gz)
+md5sums=('05be5f5b8822f10e4fc4e1dea7d5e770')
+
+build() {
+  cd ${srcdir}/${pkgname}-${pkgver}
+  
+  scons
+}
+
+package() {
+  cd ${srcdir}/${pkgname}-${pkgver}
+  
+  install -D -m755 ${srcdir}/${pkgname}-${pkgver}/fwflash ${pkgdir}/usr/bin/fwflash
+  install -D -m755 ${srcdir}/${pkgname}-${pkgver}/fwexec ${pkgdir}/usr/bin/fwexec
+}
