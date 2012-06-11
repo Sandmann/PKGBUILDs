@@ -1,4 +1,6 @@
-*.tar.gz
+*.gz
 *.tgz
 *.zip
 *.bz2
+*.bin
+*.xz
