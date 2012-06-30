@@ -1,0 +1,41 @@
+# Maintainer: Sven Schneider <archlinux.sandmann@googlemail.com>
+
+pkgname=openrave
+pkgver=0.6.6
+pkgrel=1
+pkgdesc="An environment for testing, developing, and deploying motion planning algorithms in real-world robotics applications."
+arch=('i686' 'x86_64')
+url="http://openrave.org/en/main/index.html"
+license=('LGPL' 'Apache')
+depends=('boost' 'soqt' 'ode' 'bullet' 'python2-numpy' 'python2-sympy' 'collada-dom' 'gmp' 'mpfr')
+makedepends=('cmake')
+optdepends=('ffmpeg: Video support'
+			'octave: Octave bindings'
+			'icee: Communication with ICE')
+source=(http://downloads.sourceforge.net/project/${pkgname}/${pkgver}/${pkgname}-${pkgver}-linux-src.tar.bz2)
+md5sums=('b5279334023356658ea858c827df08f1')
+
+build() {
+	cd "${srcdir}/${pkgname}-${pkgver}-linux-src"
+	
+	# workaround for problem with moc and boost
+	sed 's/${QTCOIN_MOCS})/${QTCOIN_MOCS} OPTIONS -DBOOST_TT_HAS_OPERATOR_HPP_INCLUDED)/g' -i plugins/qtcoinrave/CMakeLists.txt
+	
+	sed 's/AddFunctionWrapper/this->AddFunctionWrapper/g' -i src/libopenrave/fparsermulti.h
+	
+	cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_CXX_FLAGS=-fpermissive -DOPT_MATLAB=OFF -DPYTHON_EXECUTABLE=/usr/bin/python2 -DOPENRAVE_PYTHON_INSTALL_DIR=lib/python2.7 .
+	make
+	
+	# use python2 instead of python
+	sed 's/^#!\/usr\/bin\/env python$/#!\/usr\/bin\/env python2/g' -i python/*.py
+	sed 's/^#!\/usr\/bin\/env python$/#!\/usr\/bin\/env python2/g' -i python/databases/*.py
+	sed 's/^#!\/usr\/bin\/env python$/#!\/usr\/bin\/env python2/g' -i python/examples/*.py
+	sed 's/^#!\/usr\/bin\/env python$/#!\/usr\/bin\/env python2/g' -i python/interfaces/*.py
+}
+
+package() {
+	cd "${srcdir}/${pkgname}-${pkgver}-linux-src"
+	
+	make DESTDIR=${pkgdir} install
+}
+
