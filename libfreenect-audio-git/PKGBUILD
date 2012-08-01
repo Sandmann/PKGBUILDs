@@ -3,7 +3,7 @@
 pkgname=libfreenect-audio-git
 pkgver=20120801
 pkgrel=1
-pkgdesc="Drivers and libraries for the Xbox Kinect device on Linux"
+pkgdesc="Drivers and libraries for the Xbox Kinect device on Linux (with audio)"
 arch=('i686' 'x86_64')
 url="http://openkinect.org"
 license=('GPL')
