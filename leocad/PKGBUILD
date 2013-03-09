@@ -1,0 +1,40 @@
+# Contributor: Seth Schroeder <theking@kingdomofseth.com>
+# Contributor: Sven Schneider <archlinux.sandmann@googlemail.com>
+
+pkgname=leocad
+pkgver=0.79.3
+_piecesver=7114
+pkgrel=1
+pkgdesc="LeoCAD is a CAD program for creating virtual LEGO models. It has an easy to use interface and currently includes over 6000 different pieces created by the LDraw community."
+arch=('i386' 'x86_64')
+url="http://leocad.org"
+license=('GPL')
+depends=('zlib' 'libjpeg' 'libpng' 'gtk2' 'mesa')
+source=(http://leocad.googlecode.com/files/${pkgname}-${pkgver}-src.tgz
+        http://leocad.googlecode.com/files/pieces-${_piecesver}.zip
+        leocad.sh)
+md5sums=('edea92ce268b761c9da46742e78c106d'
+         '5be3590d960c546edf1d4dcb72dba7c1'
+         '3f34120f671583c407df392a7f8c3998')
+
+build() {
+  cd "${srcdir}/${pkgname}"
+
+  # install the binary to /usr/share
+  sed 's#$(DESTDIR)$(PREFIX)/bin#$(DESTDIR)$(PREFIX)/share/leocad/bin#g' -i Makefile
+
+  make config
+  make
+}
+
+package() {
+  cd "${srcdir}/${pkgname}"
+
+  make DESTDIR="${pkgdir}" PREFIX="/usr" install
+
+  install -dm755 "${pkgdir}/usr/share/leocad/pieces/"
+  install -Dm644 "${srcdir}/library.bin" "${pkgdir}/usr/share/leocad/pieces/library.bin"
+
+  install -dm755 "${pkgdir}/usr/bin/"
+  install -Dm755 "${srcdir}/leocad.sh" "${pkgdir}/usr/bin/leocad"
+}
