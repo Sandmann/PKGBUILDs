@@ -14,8 +14,11 @@ makedepends=('git')
 provides=('openni')
 conflicts=('openni')
 install="openni.install"
-source=()
-md5sums=()
+source=(libopenni.pc)
+md5sums=('846a9b0be1dbee5f1d4619db42034978')
+sha256sums=('6869091a0c2b2f54896042fbc985b6f8461be78528bdca5402334b1c883c3b46')
+sha384sums=('3ae053cc9b21aaaf901488c04c58fb63aa63371f8db5cce1056eff5d0c19cc59df8f9942be11732f08c22e25379159f9')
+sha512sums=('117f805d1ab07ecdb2486ad1c6ec6c7bbb3ece5b9ac290f0fc4bb4c05888fddd1f7a10de0c6daed9778716ffea6f0adaf40cd10c212ff690769850f42c173b68')
 
 _gitroot="git://github.com/OpenNI/OpenNI.git"
 _gitname="openni"
@@ -72,4 +75,7 @@ package() {
   install Sample* "${pkgdir}/usr/bin"
 
   install libnimCodecs.so libnimMockNodes.so libnimRecorder.so libOpenNI.so libOpenNI.jni.so "${pkgdir}/usr/lib"
+
+  install -dm755 "${pkgdir}/usr/lib/pkgconfig"
+  install -Dm644 "${srcdir}/libopenni.pc" "${pkgdir}/usr/lib/pkgconfig/"
 }
