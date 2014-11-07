@@ -3,8 +3,8 @@
 # Contributor: Corrado Primier <bardo@aur.archlinux.org>
 
 pkgname=eclipse-mylyn
-pkgver=3.8.3
-_reldate=20130107-0100
+pkgver=3.13.0
+_reldate=20140908-2330
 pkgrel=1
 pkgdesc="A task-focused interface for Eclipse"
 arch=('any')
@@ -17,10 +17,10 @@ source=(http://download.eclipse.org/mylyn/drops/${pkgver}/v${_reldate}/mylyn-${p
 replaces=('eclipse-mylyn-extras')
 changelog=ChangeLog
 provides=("eclipse-mylyn-extras=${pkgver}")
-md5sums=('fae45402e0c70d334d83e3008b08e4fe')
-sha256sums=('b4657eb491c97a8fdbf4502b0550ba097fa11b86781a98fe746e38b77a5b2d7d')
-sha384sums=('afb4ba67e7408399c0d1caaf6b26d004b6e978d46a509db612e31a8244a9ce075ef881dc902f81ee5d1088580e1eeee2')
-sha512sums=('6905a4c81a2d2b30bfbbed5ab0e0963d634ee853704c4c0b6b42d19e2b2defd095359229f8f0ea77f0e36106cbb455f69205578e605f73bf6fe3a88dfc528f66')
+md5sums=('7e866b92353bd6d7fcf96838dd54d665')
+sha256sums=('ddec39d58b6aaf65b5630774d1bc06e6112ee855e8bff63d55eb9dcfbda31664')
+sha384sums=('d9783f73a14902760961b93493649bbeb69cc679382143763e79485ced93eacf0fd47bf73781c4f844286cfee7452b4b')
+sha512sums=('2727967b349e80367d0a6cbe7494e37db1935e0d28f4785f8ba5ea308e27f7cb12f05351765f914c072fd8298b0486555ab0e3976a16febfa9d804fd2074a2bb')
 
 package() {
   _dest=${pkgdir}/usr/share/eclipse/dropins/${pkgname/eclipse-}/eclipse
