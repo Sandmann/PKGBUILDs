@@ -1,0 +1,41 @@
+# Maintainer: Sven Schneider <archlinux.sandmann@googlemail.com>
+
+pkgname=opendds
+pkgver=3.5
+pkgrel=1
+pkgdesc="Open-source C++ implementation of the Object Management Group's specification 'Data Distribution Service for Real-time Systems'."
+arch=('i686' 'x86_64')
+url="http://www.opendds.org/index.html"
+license=('custom')
+depends=('aceorb')
+source=(http://download.ociweb.com/OpenDDS/OpenDDS-${pkgver}.tar.gz)
+md5sums=('cf340044379926d6d145ffb1027bdbe5')
+sha256sums=('6ff2b982548fcd64124f6636dc14da5ebfbc4a8a8f9af935839ba20235bc7afa')
+sha384sums=('ddc5f96946b0593bcb645e0a1d457691ddde231db9f599c7bb91c4b317d7de1fb072e2179c0b2181eb3979a084d91df2')
+sha512sums=('e3b0063a018faf481b683d6fb2b99746d8caa05e010a1c26cadeb29f1f061a17d962957f23481bbd508e3de7d1ce192c4d377b4d9d74c1664fc378ac4188fa6b')
+
+build() {
+  cd "${srcdir}/DDS"
+
+  #sed 's#/ace/ACE.h#/include/ace/ACE.h#g' -i configure
+  #sed 's#/ace/config.h#/include/ace/config.h#g' -i configure
+  #sed 's#/tao/ORB.h#/include/tao/ORB.h#g' -i configure
+  #sed 's#/VERSION#/share/tao/VERSION#g' -i configure
+  #sed 's#/include/makeinclude#/share/ace/include/makeinclude#g' -i GNUmakefile
+
+  #sed "s#\$opts{'ace'} . '/ace/ACE.h'#'/usr/include/ace/ACE.h'#g" -i configure
+  #sed "s#\$ENV{'ACE_ROOT'}/ace/config.h#/usr/include/ace/config.h#g" -i configure
+  #sed "s#\$opts{'tao'} . '/tao/ORB.h'#'/usr/include/tao/ORB.h'#g" -i configure
+  #sed "s#\$ENV{'ACE_ROOT'}/bin/tao_idl#/usr/bin/tao_idl#g" -i configure
+  #sed "s#\$ENV{'TAO_ROOT'} . '/VERSION'#'/usr/share/tao/VERSION'#g" -i configure
+
+  ./configure --prefix=/usr --ace=/usr/share/ace --tao=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/DDS"
+
+  make DESTDIR="${pkgdir}" install
+}
+
