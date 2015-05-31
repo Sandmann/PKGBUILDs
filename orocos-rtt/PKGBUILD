@@ -36,6 +36,7 @@ build() {
 
   # update the cmake configuration file so that it finds the RTT
   sed 's/set(OROCOS-RTT_FOUND ${OROCOS-RTT_IMPORT_FILE})/set(OROCOS-RTT_FOUND TRUE)/g' -i orocos-rtt-config.cmake
+  sed 's/CXX_VERSION MATCHES "4/CXX_VERSION MATCHES "5/g' -i config/check_depend.cmake
 
   unset -v ROS_ROOT
   cmake -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_TESTS=On .
